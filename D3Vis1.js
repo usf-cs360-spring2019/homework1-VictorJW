@@ -22,10 +22,10 @@ var countFrequency = function(){
     let countMax = d3.max(count.values());
 
     let margin = {
-    top:    15,
-    right:  35, // leave space for y-axis
+    top:    70,
+    right:  40, // leave space for y-axis
     bottom: 30, // leave space for x-axis
-    left:   10
+    left:   60
     };
 
     let bounds = svg.node().getBoundingClientRect();
@@ -53,15 +53,16 @@ var countFrequency = function(){
     let xGroup = plot.append("g").attr("id", "x-axis");
     xGroup.call(xAxis);
     xGroup.attr("transform", "translate(0," + plotHeight + ")");
-    let yAxis = d3.axisRight(countScale);
+    let yAxis = d3.axisLeft(countScale);
     let yGroup = plot.append("g").attr("id", "y-axis");
     yGroup.call(yAxis);
-    yGroup.attr("transform", "translate(" + plotWidth + ",0)");
+    yGroup.attr("transform", "translate(0,0)");
 
     let bars = plot.selectAll("rect")
       .data(count.entries());
 
     bars.enter().append("rect")
+      .style("fill", "#9d2933")
       .attr("class", "bar")
       .attr("width", policeScale.bandwidth())
       .attr("x", function(d) {
@@ -76,5 +77,30 @@ var countFrequency = function(){
       .each(function(d, i, nodes) {
         console.log("Added bar for:", d.key);
       });
+
+
+      svg.append("text")
+        .style("font-size", "22")
+        .attr("y", margin.top/2)
+        .attr("x", 10)
+        .style("text-anchor", "start")
+        .text("Incidents Distribution Among Police District");
+
+      plot.append("text")
+        .style("font-size", "12")
+        .attr("transform",
+          "translate(" + (plotWidth/2) + " ,"
+          + "-10)")
+        .style("text-anchor", "middle")
+        .text("Police District");
+
+      plot.append("text")
+        .style("font-size", "12")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -margin.left + 8)
+        .attr("x", -(plotHeight/2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Number of Incidents");
   });
-};
+}
