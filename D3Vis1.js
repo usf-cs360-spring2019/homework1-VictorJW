@@ -40,7 +40,7 @@ var countFrequency = function(){
     var policeScale = d3.scaleBand()
       .domain(count.keys()) // all letters (not using the count here)
       .rangeRound([0, plotWidth])
-      .paddingInner(0.1); // space between bars
+      .paddingInner(0.5); // space between bars
 
 
     let plot = svg.select("g#plot");
